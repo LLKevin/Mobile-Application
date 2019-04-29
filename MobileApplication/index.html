@@ -1,0 +1,344 @@
+<!--
+Mobile web development
+Assignment Final Project
+Created by: Kevin Lucas
+email:     klucas1038@conestogac.on.ca
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Testing MultiColumn content</title>
+    <!--jQuery-->
+    <script src="js/lib/jquery-2.1.4.js"></script>
+    <!--jQuery mobile-->
+    <script src="js/lib/jquery.mobile-1.4.5.js"></script>
+    <script src="js/lib/jquery.validate.js"></script>
+    <!--jQuery mobile css-->
+    <link rel="stylesheet" type="text/css" href="css/lib/jquery.mobile-1.4.5.css">
+    <!--jQuery mobile css-->
+    <link rel="stylesheet" type="text/css" href="css/main.css">
+    <!--Javascript created-->
+    <script src="js/KLDatabase.js"></script>
+    <script src="js/KLShoppingDAL.js"></script>
+    <script src="js/global.js"></script>
+    <script src="js/KLUtil.js"></script>
+    <script src="js/KLFacade.js"></script>
+
+</head>
+<!--Home Page-->
+<body>
+
+
+<div id="klHomePage" data-role="page">
+    <header data-role="header" data-position="fixed">
+        <h3 style="background-color: coral; margin: 0; text-align: center">Home</h3>
+        <div data-role="navbar" data-iconpos="top">
+            <ul>
+                <li  data-theme="c"><a data-theme="a" href="#klHomePage" data-icon="gear"
+                                       class=" ui-btn-active ui-state-persist">Home</a></li>
+                <li  data-theme="c"><a data-theme="a" href="#kladdNewItem" data-icon="plus">Add New Item</a></li><!----Only for admin --->
+                <li  data-theme="c"><a data-theme="a" href="#klDisplayItems" data-icon="grid" >Display Items</a></li>
+                <li  data-theme="c"><a data-theme="a" href="#klCart" data-icon="gear" >Cart</a></li>
+                <li  data-theme="c"><a data-theme="a" href="#klDevInfo" data-icon="gear" >Developer Info</a></li>
+            </ul>
+        </div>
+    </header>
+    <section data-role="content">
+       <h3> Welcome to Kevin's store</h3>
+        <p style="margin: 2em">
+            A prototype designed for the mobile programming class.
+            This application will allow the buying of products from a set of listings. The user can
+            view and modify cart items.</p>
+        <img id="bitcoinIcon" src="img/Bitcoin-icon.png" alt="bitcoin icon">
+    </section>
+    <footer style="width:100%;" class="footer-Style" data-role="footer" data-position="fixed" data-iconpos="fixed" >
+        <h3 style="margin: 0">&copy; 2019 Kevin Lucas</h3>
+    </footer>
+</div>
+<div data-role="page" id="kladdNewItem">
+    <header style="background-color: coral; margin: 0;" data-role="header" data-position="fixed">
+        <h3 >Add A Product</h3>
+        <div data-role="navbar">
+            <ul>
+                <li  data-theme="c"><a data-theme="a" href="#klHomePage" data-icon="gear" >Home</a></li>
+                <li  data-theme="c"><a data-theme="a" href="#kladdNewItem" data-icon="plus"
+                                       class=" ui-btn-active ui-state-persist">New Item</a></li><!----Only for admin --->
+                <li  data-theme="c"><a data-theme="a" href="#klDisplayItems" data-icon="grid" >Display Items</a></li>
+                <li  data-theme="c"><a data-theme="a" href="#klCart" data-icon="gear" >Cart</a></li>
+                <li  data-theme="c"><a data-theme="a" href="#klDevInfo" data-icon="gear" >Developer Info</a></li>
+            </ul>
+        </div>
+    </header>
+    <section data-role="content">
+        <form id="klAddNewItemFrm" name="klAddNewItemFrm">
+            <label for="itemName">Item name:</label>
+            <input type="text" id="itemName" name="itemName" >
+
+            <label for="klCategory">Category:</label>
+            <input type="text" id="klCategory" name="klCategory" >
+
+            <label for="manufactureName">manufacture Name:</label>
+            <input type="text" id="manufactureName" name="manufactureName" >
+
+            <label for="klPrice">Price:</label>
+            <input type="number" id="klPrice" name="klPrice" >
+
+            <label for="klItemDescription">Item Description:</label>
+            <textarea type="text" id="klItemDescription" name="klItemDescription"></textarea>
+            <a id="klSaveItem" name="klSaveItem" type="button" data-role="button"
+               style="background-color:#3388cc; text-shadow:0 1px 0 #444444;
+                border:none; width:150px; color:white;"> Save</a>
+        </form>
+    </section>
+    <footer class="footer-Style" data-role="footer" data-position="fixed" data-iconpos="fixed" >
+        <h3 style="margin: 0;">&copy; 2019 Kevin Lucas</h3>
+    </footer>
+</div>
+
+
+<!---Display listings  lookup table--->
+
+<div id="klDisplayItems" data-role="page">
+    <header data-role="header" data-position="fixed">
+        <h3 style="background-color: coral; margin: 0;">Item Listing</h3>
+        <div data-role="navbar" data-iconpos="top">
+            <ul>
+                <li  data-theme="c"><a data-theme="a" href="#klHomePage" data-icon="gear" >Home</a></li>
+                <li  data-theme="c"><a data-theme="a" href="#kladdNewItem" data-icon="plus">Add New Item</a></li><!----Only for admin --->
+                <li  data-theme="c"><a data-theme="a" href="#klDisplayItems" data-icon="grid"
+                                       class=" ui-btn-active ui-state-persist">Display Items</a></li>
+                <li  data-theme="c"><a data-theme="a" href="#klCart" data-icon="gear" >Cart</a></li>
+                <li  data-theme="c"><a data-theme="a" href="#klDevInfo" data-icon="gear" >Developer Info</a></li>
+            </ul>
+        </div>
+    </header>
+    <section data-role="content">
+        <ul data-role="listview"  data-inset="true" id="klProductList"></ul>
+    </section>
+    <footer class="footer-Style" data-role="footer" data-position="fixed" data-iconpos="fixed" >
+        <h3 style="margin: 0">&copy; 2019 Kevin Lucas</h3>
+    </footer>
+</div>
+
+<!---Single product details--->
+
+<div id="klProductDetails" data-role="page">
+    <header data-role="header" data-position="fixed">
+        <h3 style="background-color: coral; margin: 0;">How many Pieces?</h3>
+        <div data-role="navbar" data-iconpos="top">
+            <ul>
+                <li  data-theme="c"><a data-theme="a" href="#klHomePage" data-icon="gear" >Home</a></li>
+                <li  data-theme="c"><a data-theme="a" href="#kladdNewItem" data-icon="plus">Add New Item</a></li><!----Only for admin --->
+                <li  data-theme="c"><a data-theme="a" href="#klDisplayItems" data-icon="grid"
+                                       class=" ui-btn-active ui-state-persist">Display Items</a></li>
+                <li  data-theme="c"><a data-theme="a" href="#klCart" data-icon="gear" >Cart</a></li>
+                <li  data-theme="c"><a data-theme="a" href="#klDevInfo" data-icon="gear" >Developer Info</a></li>
+            </ul>
+        </div>
+    </header>
+    <section data-role="content">
+        <form id="klItemDetailFrm" name="klItemDetailFrm">
+            <label for="klItemDetailName">Item name:</label>
+            <input type="text" id="klItemDetailName" name="klItemDetailName" disabled>
+
+            <label for="klItemDetailPrice">Price:</label>
+            <input type="text" id="klItemDetailPrice" name="klItemDetailPrice" disabled>
+
+            <label for="klQuantityWanted">Quantity wanted</label>
+            <input type="text" id="klQuantityWanted" name="klQuantityWanted">
+
+            <a id="klAddToCart" name="klAddToCart" type="button" data-role="button"
+                    style="background-color:#3388cc; text-shadow:0 1px 0 #444444;
+                border:none; width:150px; color:white;"> Add To Cart</a>
+
+            <a type="button" id="klCancel" name="klCancel" data-role="button"
+                    style="background-color:#cc551c; text-shadow:0 1px 0 #444444;
+                border:none; width:100px; color:white;"> Cancel </a>
+        </form>
+    </section>
+    <footer class="footer-Style" data-role="footer" data-position="fixed" data-iconpos="fixed">
+        <h3 style="margin: 0">&copy; 2019 Kevin Lucas</h3>
+    </footer>
+</div>
+<!---cart items --->
+<div id="klCart" data-role="page">
+    <header data-role="header" data-position="fixed">
+        <h3 style="background-color: coral; margin: 0;">Shopping Cart</h3>
+        <div data-role="navbar" data-iconpos="top">
+        <ul>
+            <li  data-theme="c"><a data-theme="a" href="#klHomePage" data-icon="gear" >Home</a></li>
+            <li  data-theme="c"><a data-theme="a" href="#kladdNewItem" data-icon="plus">Add New Item</a></li><!----Only for admin --->
+            <li  data-theme="c"><a data-theme="a" href="#klDisplayItems" data-icon="grid">Display Items</a></li>
+            <li  data-theme="c"><a data-theme="a" href="#klCart" data-icon="gear"
+                                   class=" ui-btn-active ui-state-persist">Cart</a></li>
+            <li  data-theme="c"><a data-theme="a" href="#klDevInfo" data-icon="gear" >Developer Info</a></li>
+        </ul>
+    </div></header>
+    <section data-role="content">
+        <ul data-role="listview" data-inset="true" id="cartItems"></ul>
+        <span id="cartTotal"></span>
+        <button id="klCheckOut" name="klCheckOut" type="button"
+                style="background-color:#3388cc; text-shadow:0 1px 0 #444444;
+                border:none; width:180px; color:white;">Check Out</button>
+
+        <button id="klClearCart" name="klClearCart" type="button"
+                style="background-color:#3388cc; text-shadow:0 1px 0 #444444;
+                border:none; width:180px; color:white;">Empty Cart</button>
+    </section>
+    <footer class="footer-Style" data-role="footer" data-position="fixed" data-iconpos="fixed" >
+        <h3 style="margin: 0">&copy; 2019 Kevin Lucas</h3>
+    </footer>
+</div>
+<!---Shipping Info-->
+<div id="klShipping" data-role="page">
+    <header data-role="header" data-position="fixed">
+        <h3 style="background-color: coral; margin: 0;">Add Shipping Information</h3>
+        <div data-role="navbar" data-iconpos="top">
+            <ul>
+                <li  data-theme="c"><a data-theme="a" href="#klHomePage" data-icon="gear" >Home</a></li>
+                <li  data-theme="c"><a data-theme="a" href="#kladdNewItem" data-icon="plus">Add New Item</a></li><!----Only for admin --->
+                <li  data-theme="c"><a data-theme="a" href="#klDisplayItems" data-icon="grid">Display Items</a></li>
+                <li  data-theme="c"><a data-theme="a" href="#klCart" data-icon="gear"
+                                       class=" ui-btn-active ui-state-persist">Cart</a></li>
+                <li  data-theme="c"><a data-theme="a" href="#klDevInfo" data-icon="gear" >Developer Info</a></li>
+            </ul>
+        </div></header>
+    <section data-role="content">
+        <form id="klAddShippingInfo" name="klAddShippingInfo">
+
+            <!---figure out how to including images --->
+            <label for="klFirstName">First Name: </label>
+            <input type="text" id="klFirstName" name="klFirstName">
+
+            <label for="klLastName">Last Name: </label>
+            <input type="text" id="klLastName" name="klLastName">
+
+            <label for="klAddress">Shipping Address :</label>
+            <input type="text" id="klAddress" name="klAddress">
+
+
+            <label for="klCity">City :</label>
+            <input type="text" id="klCity" name="klCity">
+
+
+            <label for="klCountry">Province: </label>
+            <input type="text" id="klCountry" name="klCountry">
+
+            <label for="klPostalCode">Postal Code :</label>
+            <input type="text" id="klPostalCode" name="klPostalCode">
+
+            <label for="klCreditCardNum">Credit Card Number :</label>
+            <input type="text" id="klCreditCardNum" name="klCreditCardNum">
+
+
+            <button id="klSaveBuyerDetails" name="klSaveBuyerDetails" type="button"
+                    style="background-color:#3388cc; text-shadow:0 1px 0 #444444;
+                border:none; width:100px; color:white;">Save</button>
+        </form>
+    </section>
+    <footer class="footer-Style" data-role="footer" data-position="fixed" data-iconpos="fixed" >
+        <h3 style="margin: 0">&copy; 2019 Kevin Lucas</h3>
+    </footer>
+</div>
+<!---Receipt Display --->
+<div id="klReceipt" data-role="page">
+    <header data-role="header" data-position="fixed" data-theme="b">
+        <h3 style="background-color: coral; margin: 0;">Home</h3>
+        <div data-role="navbar" data-iconpos="top">
+            <ul>
+                <li  data-theme="c"><a data-theme="a" href="#klHomePage" data-icon="gear" >Home</a></li>
+                <li  data-theme="c"><a data-theme="a" href="#kladdNewItem" data-icon="plus">Add New Item</a></li><!----Only for admin --->
+                <li  data-theme="c"><a data-theme="a" href="#klDisplayItems" data-icon="grid" >Display Items</a></li>
+                <li  data-theme="c"><a data-theme="a" href="#klCart" data-icon="gear"
+                                       class=" ui-btn-active ui-state-persist">Cart</a></li>
+                <li  data-theme="c"><a data-theme="a" href="#klDevInfo" data-icon="gear" >Developer Info</a></li>
+            </ul>
+        </div>
+    </header>
+    <section data-role="content">
+        <table id="receiptOutput" align="center"></table>
+        <span id="cartReceiptTotal"></span>
+        <span id="userInfo" align="center"></span>
+        <button data-role="button" id="btnHome" name="btnHome">Home</button>
+    </section>
+    <footer class="footer-Style" data-role="footer" data-position="fixed" data-iconpos="fixed" >
+        <h3 style="margin: 0">&copy; 2019 Kevin Lucas</h3>
+    </footer>
+</div>
+<!---Developer Information-->
+    <div id="klDevInfo" data-role="page">
+        <header data-role="header" data-position="fixed">
+            <h3 style="background-color: coral; margin: 0;">About Developer</h3>
+            <div data-role="navbar" data-iconpos="top">
+                <ul>
+                    <li  data-theme="c"><a data-theme="a" href="#klHomePage" data-icon="gear" >Home</a></li>
+                    <li  data-theme="c"><a data-theme="a" href="#kladdNewItem" data-icon="plus">Add New Item</a></li><!----Only for admin --->
+                    <li  data-theme="c"><a data-theme="a" href="#klDisplayItems" data-icon="grid">Display Items</a></li>
+                    <li  data-theme="c"><a data-theme="a" href="#klCart" data-icon="gear">Cart</a></li>
+                    <li  data-theme="c"><a data-theme="a" href="#klDevInfo" data-icon="gear"
+                                           class=" ui-btn-active ui-state-persist">Developer Info</a></li>
+                </ul>
+            </div></header>
+        <section data-role="content" style="text-align: center; margin-top: 2em">
+                <h1>About the Developer</h1>
+                <ul>
+                    <li>Name: Kevin Lucas</li>
+                    <li>Birthday: August 6 1993</li>
+                    <li>Program: Computer Programmer/Analyst</li>
+                    <li>College: Conestoga college</li>
+                    <li>Email: klucas1038@conestogac.on.ca</li>
+                </ul>
+        </section>
+        <footer class="footer-Style" data-role="footer" data-position="fixed"1>
+            <h3 style="margin: 0">&copy; 2019 Kevin Lucas</h3>
+        </footer>
+    </div>
+<!----Modify Cart Items--->
+<div id="klModifyCartItems" data-role="page">
+    <header data-role="header" data-position="fixed">
+        <h3 style="background-color: coral; margin: 0;">Modify Cart Items</h3>
+        <div data-role="navbar" data-iconpos="top">
+            <ul>
+                <li  data-theme="c"><a data-theme="a" href="#klHomePage" data-icon="gear" >Home</a></li>
+                <li  data-theme="c"><a data-theme="a" href="#kladdNewItem" data-icon="plus">Add New Item</a></li><!----Only for admin --->
+                <li  data-theme="c"><a data-theme="a" href="#klDisplayItems" data-icon="grid">Display Items</a></li>
+                <li  data-theme="c"><a data-theme="a" href="#klCart" data-icon="gear"
+                                       class=" ui-btn-active ui-state-persist">Cart</a></li>
+                <li  data-theme="c"><a data-theme="a" href="#klDevInfo" data-icon="gear" >Developer Info</a></li>
+            </ul>
+        </div>
+    </header>
+    <section data-role="content">
+        <form id="klCartItemModify" name="klCartItemModify">
+
+            <label for="klItemNameCart">Item name:</label>
+            <input type="text" id="klItemNameCart" name="klItemNameCart" disabled>
+
+            <label for="klCartPrice">Price:</label>
+            <input type="text" id="klCartPrice" name="klCartPrice" disabled>
+
+            <label for="klCartQuantity">Quantity</label>
+            <input type="text" id="klCartQuantity" name="klCartQuantity">
+
+            <a id="klCartUpdate" name="klCartUpdate" type="button" data-role="button"
+               style="background-color:#3388cc; text-shadow:0 1px 0 #444444;
+                border:none; width:80px; color:white;"> Update</a>
+
+            <a id="klDelete" name="klDelete" type="button" data-role="button"
+               style="background-color:#3388cc; text-shadow:0 1px 0 #444444;
+                border:none; width:80px; color:white;"> Delete</a>
+
+            <a id="klCartCancel" name="klCartCancel" type="button" data-role="button"
+               style="background-color:#cc551c; text-shadow:0 1px 0 #444444;
+                border:none; width:80px; color:white;"> Cancel </a>
+        </form>
+    </section>
+    <footer class="footer-Style" data-role="footer" data-position="fixed"  >
+        <h3 style="margin: 0">&copy; 2019 Kevin Lucas</h3>
+    </footer>
+</div>
+
+</body>
+</html>

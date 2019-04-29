@@ -1,0 +1,52 @@
+label.error
+{
+    color: red;
+    font-weight: bold;
+}
+
+
+#klProductList li{
+    padding :10px;
+}
+
+#receiptOutput
+{
+    text-align: center;
+    padding:10px;
+}
+#receiptOutput table{
+    border-spacing: 15px 10px;
+}
+
+#receiptOutput td{
+    padding: 5px
+}
+#klDevInfo section li{
+    list-style: none;
+    padding: 3px;
+}
+
+#bitcoinIcon{
+    display: block;
+    margin-left:auto;
+    margin-right: auto;
+}
+
+
+
+.footer-Style h3{
+    background-color: coral;
+    width:100%
+}
+
+input[type=button], a[type=button]{
+    display:inline-block;
+    padding-left:10px;
+    margin: 10px 10px;
+    float:left;
+}
+
+button{
+    display:inline-block;
+}
+
